@@ -6,40 +6,6 @@
 [![TypeORM](https://img.shields.io/badge/TypeORM-0.3.17-orange)](https://typeorm.io/)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)]()
 
-A production-ready blog API demonstrating **incremental migration from TypeORM to Drizzle ORM**. Both ORMs run together on the same MariaDB database, enabling seamless cross-ORM interactions and real-time data sharing.
-
----
-
-## 📋 Table of Contents
-
-- [Overview](#-overview)
-- [Quick Start](#-quick-start)
-- [Features](#-features)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [API Documentation](#-api-documentation)
-- [Cross-ORM Interactions](#-cross-orm-interactions)
-- [Database Schema](#-database-schema)
-- [Error Fixes Applied](#-error-fixes-applied)
-- [Comparison: MikroORM vs Drizzle](#-comparison-mikroorm-vs-drizzle)
-- [Troubleshooting](#-troubleshooting)
-- [Development](#-development)
-- [Scripts](#-scripts)
-- [Tech Stack](#-tech-stack)
-- [License](#-license)
-
----
-
-## 🎯 Overview
-
-### What This Project Demonstrates
-
-- **Dual ORM Architecture**: TypeORM and Drizzle ORM working together
-- **Shared Database**: Single MariaDB database for both ORMs
-- **Cross-ORM Queries**: TypeORM entities can access Drizzle data and vice versa
-- **Gradual Migration Strategy**: Migrate from TypeORM to Drizzle incrementally
-- **Real-Time Sync**: Changes in one ORM are immediately visible in the other
 
 ### ORM Responsibilities
 
@@ -77,29 +43,6 @@ npm run start:dev
 ### 4. Access Dashboard
 Open **http://localhost:3001** in your browser
 
----
-
-## ✨ Features
-
-### Core Features
-- ✅ **Hybrid ORM Architecture** - TypeORM + Drizzle on same database
-- ✅ **Cross-ORM Queries** - Seamless data access across both systems
-- ✅ **Type Safety** - Full TypeScript support with excellent inference
-- ✅ **Interactive Dashboard** - Modern web UI for testing all operations
-- ✅ **Auto Port Management** - Kills conflicting processes automatically
-- ✅ **Live Reload** - Hot reloading for development
-- ✅ **Auto Table Creation** - Both ORMs create their tables on startup
-- ✅ **Validation** - class-validator for all DTOs
-- ✅ **Error Handling** - Comprehensive error handling across all layers
-
-### Technical Features
-- ✅ **Foreign Key Validation** - Cross-ORM integrity checks
-- ✅ **Duplicate Prevention** - Handles duplicate key errors gracefully
-- ✅ **Connection Pooling** - Efficient database connection management
-- ✅ **Health Monitoring** - Real-time status of both ORMs
-- ✅ **Migration Support** - Drizzle Kit for schema migrations
-
----
 
 ## 🏗️ Architecture
 
@@ -557,78 +500,6 @@ CREATE TABLE post_tags (
 );
 ```
 
----
-
-## 🔧 Error Fixes Applied
-
-### Critical Errors Fixed (6)
-
-#### 1. ✅ Drizzle Configuration Error
-**Problem**: Invalid `mode` option handling  
-**Fix**: Added `mode: 'default'` to drizzle provider configuration  
-**File**: `src/drizzle/drizzle.provider.ts`
-
-#### 2. ✅ Missing Environment Variables
-**Problem**: `process.env` not loaded at startup  
-**Fix**: Added `import 'dotenv/config'` at top of `main.ts`  
-**File**: `src/main.ts`
-
-#### 3. ✅ Invalid `.ignore()` Method
-**Problem**: `.ignore()` doesn't exist in Drizzle ORM v0.35  
-**Fix**: Used try-catch with error code checking  
-**File**: `src/posts/posts.service.ts`
-
-#### 4. ✅ Incorrect Insert Result Handling (Comments)
-**Problem**: Wrong array destructuring of insert result  
-**Fix**: Changed to `result[0].insertId`  
-**File**: `src/comments/comments.service.ts`
-
-#### 5. ✅ Incorrect Insert Result Handling (Tags)
-**Problem**: Same destructuring issue as comments  
-**Fix**: Changed to `result[0].insertId`  
-**File**: `src/tags/tags.service.ts`
-
-#### 6. ✅ Missing Dependencies
-**Problem**: `dotenv` and `express` not in package.json  
-**Fix**: Added both packages to dependencies  
-**File**: `package.json`
-
-### Non-Critical Improvements (3)
-
-- ✅ Added validation after inserts
-- ✅ Enhanced startup logging with emojis
-- ✅ Removed unused `@knaadh/nestjs-drizzle-mysql2` package
-
----
-
-## ⚖️ Comparison: MikroORM vs Drizzle
-
-| Feature | MikroORM | Drizzle | Winner |
-|---------|----------|---------|--------|
-| **Type Safety** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Drizzle |
-| **Performance** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Drizzle |
-| **Bundle Size** | ~700KB | ~150KB | Drizzle |
-| **Relations** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | MikroORM |
-| **Learning Curve** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Drizzle |
-| **Tooling** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Drizzle |
-| **Migrations** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Drizzle |
-| **NestJS Integration** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | MikroORM |
-
-### When to Use Drizzle:
-- ✅ You prioritize performance (~5% vs ~15% overhead)
-- ✅ You want minimal bundle size (5x smaller)
-- ✅ You prefer SQL-like queries
-- ✅ You need excellent TypeScript inference
-- ✅ You're building edge/serverless apps
-
-### When to Use MikroORM:
-- ✅ You want built-in relation handling
-- ✅ You're migrating from TypeORM (similar API)
-- ✅ You need identity map and change tracking
-- ✅ You prefer ActiveRecord/DataMapper patterns
-
----
-
 ## 🐛 Troubleshooting
 
 ### Port 3001 Already in Use
@@ -759,46 +630,6 @@ npm run test:cov
 | `npm run drizzle:migrate` | Run Drizzle migrations |
 | `npm run drizzle:studio` | Open Drizzle Studio (visual DB tool) |
 
----
-
-## 🛠️ Tech Stack
-
-### Core
-- **[NestJS](https://nestjs.com/)** 10.x - Progressive Node.js framework
-- **[TypeScript](https://www.typescriptlang.org/)** 5.1 - Type-safe JavaScript
-- **[MariaDB/MySQL](https://mariadb.org/)** - Relational database
-
-### ORMs
-- **[TypeORM](https://typeorm.io/)** 0.3.17 - Decorator-based ORM
-- **[Drizzle ORM](https://orm.drizzle.team/)** 0.35.0 - Schema-based ORM
-
-### Drivers
-- **[mysql2](https://www.npmjs.com/package/mysql2)** - MySQL client for Node.js
-
-### Validation
-- **[class-validator](https://www.npmjs.com/package/class-validator)** - Decorator-based validation
-- **[class-transformer](https://www.npmjs.com/package/class-transformer)** - Object transformation
-
-### Development
-- **[Drizzle Kit](https://www.npmjs.com/package/drizzle-kit)** - CLI for Drizzle migrations
-- **[dotenv](https://www.npmjs.com/package/dotenv)** - Environment variable management
-- **[ESLint](https://eslint.org/)** - Code linting
-- **[Prettier](https://prettier.io/)** - Code formatting
-- **[Jest](https://jestjs.io/)** - Testing framework
-
----
-
-## 📄 License
-
-MIT License - feel free to use this project for learning or commercial purposes.
-
----
-
-## 👤 Author
-
-**Yashwanth Reddy**
-
----
 
 ## 🎉 Success Checklist
 
@@ -818,38 +649,3 @@ After installation, verify:
 - [x] Posts show tag counts (cross-ORM works)
 - [x] Comments show author info (cross-ORM works)
 - [x] No errors in console logs
-
----
-
-## 🏆 Project Status
-
-```
-╔════════════════════════════════════════════════════════════╗
-║                                                            ║
-║     ✅ ALL ERRORS FIXED                                   ║
-║     ✅ BUILD SUCCESSFUL                                   ║
-║     ✅ 100% WORKING                                       ║
-║     ✅ PRODUCTION READY                                   ║
-║                                                            ║
-║     Status: 🟢 READY TO DEPLOY                           ║
-║                                                            ║
-╚════════════════════════════════════════════════════════════╝
-```
-
-**Last Validated**: October 16, 2025  
-**Code Quality**: A+ ⭐  
-**Error Rate**: 0%  
-**Test Coverage**: Complete
-
----
-
-## 🚀 Get Started Now!
-
-```bash
-npm install
-# Set DATABASE_PASSWORD in .env
-npm run start:dev
-# Open http://localhost:3001
-```
-
-**That's it! You're ready to explore hybrid ORM architecture!** 🎉
